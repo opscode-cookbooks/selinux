@@ -4,6 +4,7 @@ This file is used to list changes made in each version of the selinux cookbook.
 
 ## Unreleased
 
+- Refactor as a library cookbook
 - Restore support for Debian/Ubuntu
 
 ## 3.1.1 (2020-09-29)
