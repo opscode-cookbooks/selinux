@@ -23,8 +23,17 @@ include SELinux::Install
 property :packages, [String, Array],
           default: lazy { default_install_packages }
 
+action_class do
+  def do_package_action(action)
+    package 'selinux' do
+      package_name new_resource.packages
+      action action
+    end
+  end
+end
+
 action :install do
-  package package_list
+  do_package_action(action)
 
   directory '/etc/selinux' do
     owner 'root'
@@ -34,15 +43,4 @@ action :install do
   end
 end
 
-action_class do
-  #
-  # The complete list of package
-  #
-  # @return [Array<string>]
-  #
-  def package_list
-    list = new_resource.packages.dup
-    list << 'mcstrans' if node['selinux']['install_mcstrans_package']
-    list
-  end
-end
+%i(upgrade remove).each { |action_type| send(:action, action_type) { do_package_action(action) } }
