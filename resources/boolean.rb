@@ -19,21 +19,27 @@
 unified_mode true
 
 property :boolean, String,
-          required: true
+          name_property: true
 
-property :value, [Integer, String, TrueClass, FalseClass],
-          required: true
+property :value, [Integer, String, true, false],
+          required: true,
+          equal_to: %w(on off),
+          coerce: proc { |p| SELinux::Cookbook::BooleanHelpers.selinux_bool(p) }
 
-action :set do
-  script "boolean_#{new_resource.boolean}" do
-    interpreter 'bash'
-    code "setsebool -P #{new_resource.boolean} #{selinux_bool_value}"
-    not_if "getsebool #{new_resource.boolean} |egrep -q \" #{selinux_bool_value}\"$"
-  end
+property :persistent, [true, false],
+          default: true,
+          desired_state: false
+
+load_current_value do |new_resource|
+  value shell_out!("getsebool #{new_resource.boolean}").stdout.split('-->').map(&:strip).last
 end
 
-action_class do
-  def selinux_bool_value
-    SELinuxServiceHelpers.selinux_bool(new_resource.value)
+action :set do
+  converge_if_changed do
+    cmd = 'setsebool'
+    cmd += ' -P' if new_resource.persistent
+    cmd += " #{new_resource.boolean} #{new_resource.value}"
+
+    execute cmd
   end
 end
