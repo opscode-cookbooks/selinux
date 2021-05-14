@@ -6,7 +6,7 @@ selinux_boolean 'staff_exec_content' do
   value false
 end
 
-selinux_boolean 'ssh_use_tcpd' do
+selinux_boolean 'ssh_sysadm_login' do
   value 'on'
 end
 
