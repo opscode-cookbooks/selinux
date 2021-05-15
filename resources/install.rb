@@ -21,7 +21,8 @@ unified_mode true
 include SELinux::Cookbook::InstallHelpers
 
 property :packages, [String, Array],
-          default: lazy { default_install_packages }
+          default: lazy { default_install_packages },
+          description: 'SELinux packages for system'
 
 action_class do
   def do_package_action(action)

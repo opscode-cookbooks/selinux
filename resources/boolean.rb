@@ -19,16 +19,19 @@
 unified_mode true
 
 property :boolean, String,
-          name_property: true
+          name_property: true,
+          description: 'SELinux boolean to set'
 
 property :value, [Integer, String, true, false],
           required: true,
           equal_to: %w(on off),
-          coerce: proc { |p| SELinux::Cookbook::BooleanHelpers.selinux_bool(p) }
+          coerce: proc { |p| SELinux::Cookbook::BooleanHelpers.selinux_bool(p) },
+          description: 'SELinux boolean value'
 
 property :persistent, [true, false],
           default: true,
-          desired_state: false
+          desired_state: false,
+          description: 'Set to true for value setting to survive reboot'
 
 load_current_value do |new_resource|
   value shell_out!("getsebool #{new_resource.boolean}").stdout.split('-->').map(&:strip).last

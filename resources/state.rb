@@ -21,7 +21,8 @@ unified_mode true
 default_action :nothing
 
 property :config_file, String,
-          default: '/etc/selinux/config'
+          default: '/etc/selinux/config',
+          description: 'Path to SELinux config file on disk'
 
 property :persistent, [true, false],
           default: true,
@@ -29,7 +30,8 @@ property :persistent, [true, false],
 
 property :policy, String,
           default: 'targeted',
-          equal_to: %w(targeted strict)
+          equal_to: %w(targeted strict),
+          description: 'SELinux policy type'
 
 deprecated_property_alias 'temporary', 'persistent', 'The temporary property was renamed persistent in the 4.0 release of this cookbook. Please update your cookbooks to use the new property name.'
 
