@@ -43,6 +43,6 @@ action :set do
     cmd += ' -P' if new_resource.persistent
     cmd += " #{new_resource.boolean} #{new_resource.value}"
 
-    execute cmd
+    shell_out!(cmd)
   end
 end
