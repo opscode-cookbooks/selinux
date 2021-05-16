@@ -92,5 +92,5 @@ action :delete do
   execute "Removing SELinux module: '#{new_resource.module_name}'" do
     command "semodule --remove='#{new_resource.module_name}'"
     action :run
-  end if SELinux::Cookbook::Module.installed?(new_resource.module_name)
+  end if SELinux::Cookbook::ModuleHelpers.installed?(new_resource.module_name)
 end

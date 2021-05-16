@@ -1,7 +1,6 @@
 module SELinux
   module Cookbook
-    # Represents a given SELinux module
-    module Module
+    module ModuleHelpers
       include Chef::Mixin::ShellOut
 
       extend self

@@ -1,10 +1,6 @@
 module SELinux
   module Cookbook
     module BooleanHelpers
-      # Take various boolean-like values and return 'on' or 'off'
-      #
-      # @param bool [String, Boolean] Boolean-like value
-      # @return [String] on or off
       def selinux_bool(bool)
         if ['on', 'true', '1', true, 1].include? bool
           'on'
