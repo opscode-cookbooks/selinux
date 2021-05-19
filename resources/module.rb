@@ -23,7 +23,6 @@ property :cookbook, String,
           description: 'Cookbook to source from module source file from'
 
 property :source, String,
-          coerce: proc { |p| p.match?(%r{^selinux/}) ? p : "selinux/#{p}" },
           description: 'Module source file name'
 
 property :content, String,
