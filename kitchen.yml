@@ -3,6 +3,14 @@ driver:
 
 provisioner:
   name: chef_zero
+  deprecations_as_errors: true
+  chef_license: accept
+  product_name: chef
+  product_version: <%= ENV['CHEF_VERSION'] || 'latest' %>
+  install_strategy: always
+  log_level: <%= ENV['CHEF_LOG_LEVEL'] || 'auto' %>
+  multiple_converge: 2
+  enforce_idempotency: true
 
 verifier:
   name: inspec
@@ -10,11 +18,39 @@ verifier:
 platforms:
   - name: centos-6
   - name: centos-7
-  - name: fedora-29
+  - name: centos-8
+  - name: fedora-latest
+  - name: debian-10
+  - name: ubuntu-1804
+  - name: ubuntu-2004
 
 suites:
-- name: default
-  run_list:
-    - recipe[selinux_module_test::create]
-    - recipe[selinux_module_test::remove]
-    - recipe[selinux_state_test]
+  - name: enforcing
+    run_list:
+      - recipe[selinux_test::install]
+      - recipe[selinux_test::state_enforcing]
+      - recipe[selinux_test::module_create]
+      - recipe[selinux_test::boolean]
+    verifier:
+      inspec_tests:
+        - test/integration/common
+        - test/integration/enforcing
+  - name: permissive
+    run_list:
+      - recipe[selinux_test::install]
+      - recipe[selinux_test::state_permissive]
+      - recipe[selinux_test::module_create]
+      - recipe[selinux_test::module_remove]
+      - recipe[selinux_test::boolean]
+    verifier:
+      inspec_tests:
+        - test/integration/common
+        - test/integration/permissive
+  - name: disabled
+    run_list:
+      - recipe[selinux_test::install]
+      - recipe[selinux_test::state_disabled]
+    verifier:
+      inspec_tests:
+        - test/integration/common
+        - test/integration/disabled

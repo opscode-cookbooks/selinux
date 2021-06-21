@@ -18,9 +18,30 @@ services: docker
 
 env:
   matrix:
-  - CHEF_LICENSE=accept INSTANCE=default-centos-6
-  - CHEF_LICENSE=accept INSTANCE=default-centos-7
-  - CHEF_LICENSE=accept INSTANCE=default-fedora-28
+  - CHEF_LICENSE=accept INSTANCE=enforcing-centos-6
+  - CHEF_LICENSE=accept INSTANCE=enforcing-centos-7
+  - CHEF_LICENSE=accept INSTANCE=enforcing-centos-8
+  - CHEF_LICENSE=accept INSTANCE=enforcing-centos-stream-8
+  - CHEF_LICENSE=accept INSTANCE=enforcing-fedora-latest
+  - CHEF_LICENSE=accept INSTANCE=enforcing-debian-10
+  - CHEF_LICENSE=accept INSTANCE=enforcing-ubuntu-1804
+  - CHEF_LICENSE=accept INSTANCE=enforcing-ubuntu-2004
+  - CHEF_LICENSE=accept INSTANCE=permissive-centos-6
+  - CHEF_LICENSE=accept INSTANCE=permissive-centos-7
+  - CHEF_LICENSE=accept INSTANCE=permissive-centos-8
+  - CHEF_LICENSE=accept INSTANCE=permissive-centos-stream-8
+  - CHEF_LICENSE=accept INSTANCE=permissive-fedora-latest
+  - CHEF_LICENSE=accept INSTANCE=permissive-debian-10
+  - CHEF_LICENSE=accept INSTANCE=permissive-ubuntu-1804
+  - CHEF_LICENSE=accept INSTANCE=permissive-ubuntu-2004
+  - CHEF_LICENSE=accept INSTANCE=disabled-centos-6
+  - CHEF_LICENSE=accept INSTANCE=disabled-centos-7
+  - CHEF_LICENSE=accept INSTANCE=disabled-centos-8
+  - CHEF_LICENSE=accept INSTANCE=disabled-centos-stream-8
+  - CHEF_LICENSE=accept INSTANCE=disabled-fedora-latest
+  - CHEF_LICENSE=accept INSTANCE=disabled-debian-10
+  - CHEF_LICENSE=accept INSTANCE=disabled-ubuntu-1804
+  - CHEF_LICENSE=accept INSTANCE=disabled-ubuntu-2004
 
 before_script:
   - sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
